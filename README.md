@@ -677,14 +677,25 @@ Ekran görüntüleri: `reports/screenshots/<test_adi>/`.
 
 ## 14. GitHub'a yükleme
 
-```bash
-cd hepsiburada-mobile-tests
-git init
-git add .
-git commit -m "Hepsiburada mobil test otomasyonu"
-git branch -M main
-git remote add origin https://github.com/<kullanici-adiniz>/hepsiburada-mobile-tests.git
-git push -u origin main
-```
+Proje klasörü bir git deposudur (`main` dalı, ilk commit hazır). `.gitignore` şunları **dışarıda bırakır**:
+- `.env`: test hesabı bilgileri
+- `.venv/`: Python ortamı
+- `reports/`: raporlar ve ekran görüntüleri; içlerinde test hesabının e-postası görünebilir
+- `__pycache__/`, `.pytest_cache/`, `.DS_Store`
 
-`.gitignore` dosyası `.venv/`, `reports/` ve `.env` klasör/dosyalarını dışarıda bırakır. Böylece şifreler ve büyük rapor dosyaları GitHub'a gitmez. Raporu paylaşmak isterseniz `rapor.html` dosyasını ayrıca ekleyebilir veya GitHub Actions ile otomatik üretebilirsiniz.
+Kanıt ekran görüntüleri `hatalar/` klasöründe olduğu için depoya dahildir.
+
+**1. GitHub'da boş bir depo açın:** [github.com/new](https://github.com/new)
+- Ad: `hepsiburada-mobile-tests`
+- README, `.gitignore` ve lisans **eklemeyin**: depo boş olmalı.
+
+**2. Depoyu bağlayıp gönderin** (`<kullanici-adiniz>` yerine kendi GitHub kullanıcı adınızı yazın):
+```bash
+cd ~/Documents/Hepsiburada-Test-Otomasyonu/hepsiburada-mobile-tests && git remote add origin https://github.com/<kullanici-adiniz>/hepsiburada-mobile-tests.git && git push -u origin main
+```
+Git kullanıcı adı ve şifre isterse, şifre yerine bir **Personal Access Token** girin: GitHub → Settings → Developer settings → Personal access tokens. GitHub hesap şifresi bu işlemde kabul edilmez.
+
+**Sonraki değişiklikler için:**
+```bash
+git add -A && git commit -m "Açıklama" && git push
+```
