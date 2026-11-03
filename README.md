@@ -2,6 +2,8 @@
 
 Hepsiburada Android uygulamasının temel fonksiyonları için **Appium + Python (pytest)** ile yazılmış mobil test otomasyonu projesi.
 
+**GitHub:** https://github.com/panyabuke/hepsiburada-android-mobile-tests
+
 Her test tipi ayrı bir klasörde yer alıyor. Her senaryonun **pozitif ve negatif** versiyonu var, test adları da **olumsuz cümle** kalıbıyla yazıldı. Her adım ekran görüntüsüyle kaydediliyor ve HTML raporda gösteriliyor.
 
 Testler **ürün kategorilerine** göre planlandı: standart, renk seçimli, beden seçimli, çoklu seçimli, indirimli ve stokta olmayan ürün. Her kategori için uygulamadan uygun bir ürün otomatik bulunur (bkz. [Ürün kategorileri](#ürün-kategorileri)).
@@ -381,7 +383,7 @@ appium driver install uiautomator2
 
 ### 6.5 Python ortamı
 ```bash
-git clone <bu-reponun-linki>
+git clone https://github.com/panyabuke/hepsiburada-android-mobile-tests.git
 cd hepsiburada-android-mobile-tests
 python3 -m venv .venv
 source .venv/bin/activate
@@ -677,7 +679,9 @@ Ekran görüntüleri: `reports/screenshots/<test_adi>/`.
 
 ## 14. GitHub'a yükleme
 
-Proje klasörü bir git deposudur (`main` dalı, ilk commit hazır). `.gitignore` şunları **dışarıda bırakır**:
+**Depo:** https://github.com/panyabuke/hepsiburada-android-mobile-tests (herkese açık, `main` dalı)
+
+`.gitignore` şunları **dışarıda bırakır**:
 - `.env`: test hesabı bilgileri
 - `.venv/`: Python ortamı
 - `reports/`: raporlar ve ekran görüntüleri; içlerinde test hesabının e-postası görünebilir
@@ -685,17 +689,19 @@ Proje klasörü bir git deposudur (`main` dalı, ilk commit hazır). `.gitignore
 
 Kanıt ekran görüntüleri `hatalar/` klasöründe olduğu için depoya dahildir.
 
-**1. GitHub'da boş bir depo açın:** [github.com/new](https://github.com/new)
-- Ad: `hepsiburada-android-mobile-tests`
-- README, `.gitignore` ve lisans **eklemeyin**: depo boş olmalı.
+### Değişiklikleri GitHub'a göndermek
+**GitHub Desktop ile:**
+1. Sol üstte **Current Repository: hepsiburada-android-mobile-tests** seçili olsun.
+2. **Changes** sekmesinde değişen dosyalar görünür. Sol alttaki **Summary** kutusuna kısa bir açıklama yazıp **Commit to main**'e basın. Değişiklik zaten commit edildiyse bu adım atlanır.
+3. Üstteki **Push origin**'e basın.
 
-**2. Depoyu bağlayıp gönderin** (`<kullanici-adiniz>` yerine kendi GitHub kullanıcı adınızı yazın):
+**Terminal ile:**
 ```bash
-cd ~/Documents/hepsiburada-android-mobile-tests/hepsiburada-android-mobile-tests && git remote add origin https://github.com/<kullanici-adiniz>/hepsiburada-android-mobile-tests.git && git push -u origin main
+cd ~/Documents/hepsiburada-android-mobile-tests/hepsiburada-android-mobile-tests && git add -A && git commit -m "Açıklama" && git push
 ```
-Git kullanıcı adı ve şifre isterse, şifre yerine bir **Personal Access Token** girin: GitHub → Settings → Developer settings → Personal access tokens. GitHub hesap şifresi bu işlemde kabul edilmez.
 
-**Sonraki değişiklikler için:**
+### Projeyi başka bir bilgisayara kurmak
+[6. Kurulum](#6-kurulum-adım-adım) adımlarını izleyin. Depoyu indirmek için:
 ```bash
-git add -A && git commit -m "Açıklama" && git push
+git clone https://github.com/panyabuke/hepsiburada-android-mobile-tests.git
 ```
