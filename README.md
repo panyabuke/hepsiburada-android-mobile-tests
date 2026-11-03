@@ -68,7 +68,7 @@ Testler her zaman **aynı sırayla** çalışır (smoke → regresyon → black 
 ## 3. Klasör yapısı
 
 ```
-hepsiburada-mobile-tests/
+hepsiburada-android-mobile-tests/
 ├── config/
 │   ├── capabilities.py        # Appium bağlantı ayarları (Android + iOS)
 │   └── urun_kategorileri.py   # Ürün kategorileri ve her kategori için arama kelimeleri
@@ -382,7 +382,7 @@ appium driver install uiautomator2
 ### 6.5 Python ortamı
 ```bash
 git clone <bu-reponun-linki>
-cd hepsiburada-mobile-tests
+cd hepsiburada-android-mobile-tests
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
@@ -406,7 +406,7 @@ Test yarıda kalsa bile sonunda **hesaptan çıkılır** (`oturumu_kapat` fixtur
 1. Hepsiburada'da **yalnızca test için** bir hesap açın. Kayıtlı kart veya adres eklemeyin.
 2. `.env` dosyasını açın (yoksa `cp .env.example .env` ile oluşturun). Dosya adı noktayla başladığı için Finder'da gizlidir; Finder'da **Cmd + Shift + .** ile görünür olur. Terminalden açmak için:
    ```bash
-   open -e ~/Documents/Hepsiburada-Test-Otomasyonu/hepsiburada-mobile-tests/.env
+   open -e ~/Documents/hepsiburada-android-mobile-tests/hepsiburada-android-mobile-tests/.env
    ```
 3. İki satırı doldurun. Tırnak işareti ve `=` etrafında boşluk kullanmayın:
    ```
@@ -416,13 +416,13 @@ Test yarıda kalsa bile sonunda **hesaptan çıkılır** (`oturumu_kapat` fixtur
    Kaydedip kapatın. `.env`, `.gitignore` içinde olduğu için GitHub'a yüklenmez.
    **Kontrol edin.** Şu komut değerleri ekrana yazdırmadan dolu mu, biçimi doğru mu kontrol eder:
    ```bash
-   cd ~/Documents/Hepsiburada-Test-Otomasyonu/hepsiburada-mobile-tests && .venv/bin/python -m utils.env_kontrol
+   cd ~/Documents/hepsiburada-android-mobile-tests/hepsiburada-android-mobile-tests && .venv/bin/python -m utils.env_kontrol
    ```
    Çıktının sonunda `Sonuç: .env hazır.` görünmeli.
 4. **İlk girişi bir kez elle yapın.** Emülatörde Hepsiburada → Hesabım → Giriş yap. Doğrulama kodu (SMS/e-posta) gelirse girin. Sonra Hesabım → **Çıkış yap** ile çıkın. Yeni cihazdan ilk girişte kod istenebilir, otomasyon bu kodu giremez.
 5. Emülatör ve Appium açıkken hesap testlerini çalıştırın:
    ```bash
-   cd ~/Documents/Hepsiburada-Test-Otomasyonu/hepsiburada-mobile-tests && .venv/bin/pytest -m hesap --html=reports/hesap.html --self-contained-html 2>&1 | tee reports/hesap.log
+   cd ~/Documents/hepsiburada-android-mobile-tests/hepsiburada-android-mobile-tests && .venv/bin/pytest -m hesap --html=reports/hesap.html --self-contained-html 2>&1 | tee reports/hesap.log
    ```
    Sonunda `2 passed` görünmeli. Raporlarda test hesabının e-postası görünür; `reports/` GitHub'a yüklenmez, raporu paylaşırken dikkat edin.
 
@@ -686,12 +686,12 @@ Proje klasörü bir git deposudur (`main` dalı, ilk commit hazır). `.gitignore
 Kanıt ekran görüntüleri `hatalar/` klasöründe olduğu için depoya dahildir.
 
 **1. GitHub'da boş bir depo açın:** [github.com/new](https://github.com/new)
-- Ad: `hepsiburada-mobile-tests`
+- Ad: `hepsiburada-android-mobile-tests`
 - README, `.gitignore` ve lisans **eklemeyin**: depo boş olmalı.
 
 **2. Depoyu bağlayıp gönderin** (`<kullanici-adiniz>` yerine kendi GitHub kullanıcı adınızı yazın):
 ```bash
-cd ~/Documents/Hepsiburada-Test-Otomasyonu/hepsiburada-mobile-tests && git remote add origin https://github.com/<kullanici-adiniz>/hepsiburada-mobile-tests.git && git push -u origin main
+cd ~/Documents/hepsiburada-android-mobile-tests/hepsiburada-android-mobile-tests && git remote add origin https://github.com/<kullanici-adiniz>/hepsiburada-android-mobile-tests.git && git push -u origin main
 ```
 Git kullanıcı adı ve şifre isterse, şifre yerine bir **Personal Access Token** girin: GitHub → Settings → Developer settings → Personal access tokens. GitHub hesap şifresi bu işlemde kabul edilmez.
 
