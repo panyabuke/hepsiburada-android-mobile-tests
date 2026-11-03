@@ -4,6 +4,8 @@ Hepsiburada Android uygulamasının temel fonksiyonları için **Appium + Python
 
 **GitHub:** https://github.com/panyabuke/hepsiburada-android-mobile-tests
 
+> **Gerçek hesapla giriş testleri** için gereken e-posta ve şifre bu depoda yoktur. Testleri çalıştırmak isteyenler bilgileri proje sahibinden **özel olarak** istemeli ve kendi `.env` dosyalarına yazmalıdır: [Projeyi başkası çalıştıracaksa](#projeyi-başkası-çalıştıracaksa-hesap-testleri).
+
 Her test tipi ayrı bir klasörde yer alıyor. Her senaryonun **pozitif ve negatif** versiyonu var, test adları da **olumsuz cümle** kalıbıyla yazıldı. Her adım ekran görüntüsüyle kaydediliyor ve HTML raporda gösteriliyor.
 
 Testler **ürün kategorilerine** göre planlandı: standart, renk seçimli, beden seçimli, çoklu seçimli, indirimli ve stokta olmayan ürün. Her kategori için uygulamadan uygun bir ürün otomatik bulunur (bkz. [Ürün kategorileri](#ürün-kategorileri)).
@@ -394,7 +396,7 @@ pip install -r requirements.txt
 Gerçek hesapla giriş testleri (`@pytest.mark.hesap`):
 
 - **Nerede:** `tests/regression/test_giris.py` (regresyon klasörü, giriş dosyası). Ayrı bir klasör yoktur; `hesap` etiketiyle ayrılırlar.
-- **Kim çalıştırır:** Hesap sahibi. Testler otomatiktir (giriş, çıkış ve kontroller kodla yapılır), ama gerçek bir şifre kullandıkları için **elle başlatılır**. Tek elle yapılan iş, ilk girişteki doğrulama kodunu bir kez girmektir (adım 4).
+- **Kim çalıştırır:** Hesap sahibi ya da hesap bilgileri kendisiyle **özel olarak** paylaşılan kişi (bkz. [Projeyi başkası çalıştıracaksa](#projeyi-başkası-çalıştıracaksa-hesap-testleri)). Testler otomatiktir (giriş, çıkış ve kontroller kodla yapılır), ama gerçek bir şifre kullandıkları için **elle başlatılır**. Tek elle yapılan iş, ilk girişteki doğrulama kodunu bir kez girmektir (adım 4).
 - **Rapor:** `reports/hesap.html` (ekran görüntülü), konsol çıktısı `reports/hesap.log`.
 
 | Tip | Test | Beklenen |
@@ -427,6 +429,41 @@ Test yarıda kalsa bile sonunda **hesaptan çıkılır** (`oturumu_kapat` fixtur
    cd ~/Documents/hepsiburada-android-mobile-tests/hepsiburada-android-mobile-tests && .venv/bin/pytest -m hesap --html=reports/hesap.html --self-contained-html 2>&1 | tee reports/hesap.log
    ```
    Sonunda `2 passed` görünmeli. Raporlarda test hesabının e-postası görünür; `reports/` GitHub'a yüklenmez, raporu paylaşırken dikkat edin.
+
+#### Projeyi başkası çalıştıracaksa (hesap testleri)
+Bu depoyu inceleyen biri hesap testlerini de çalıştırmak isterse:
+
+> ⚠️ **Test hesabının e-postası ve şifresi bu depoda YOKTUR ve hiçbir zaman eklenmemelidir.** Depo herkese açıktır; GitHub'a yazılan bir şifre silinse bile commit geçmişinde kalır.
+
+**Hesap bilgilerini paylaşan (proje sahibi):**
+1. E-posta ve şifreyi yalnızca testi yapacak kişiye, **özel bir kanaldan** gönderin: doğrudan mesaj, e-posta ya da yüz yüze. GitHub'a, README'ye, Issue'lara ya da herkese açık bir yere yazmayın.
+2. Bu hesap **yalnızca test hesabı** olmalı: kayıtlı kart, adres veya gerçek sipariş içermemeli.
+3. **Doğrulama koduna hazır olun.** Testi yapan kişi kendi emülatöründen ilk kez giriş yaptığında Hepsiburada doğrulama kodunu hesabın e-postasına/telefonuna, yani **size** gönderebilir. O sırada kodu ona iletmeniz gerekir.
+4. Testler bittikten sonra hesabın **şifresini değiştirin**.
+
+**Testi yapan kişi:**
+1. Projeyi kurun: [6.1–6.5](#6-kurulum-adım-adım) ve `git clone https://github.com/panyabuke/hepsiburada-android-mobile-tests.git`.
+2. Hesap bilgilerini proje sahibinden **özel olarak** isteyin.
+3. Proje klasöründe `.env` dosyasını oluşturun ve iki satırı doldurun (yukarıdaki 2. ve 3. adım):
+   ```bash
+   cp .env.example .env && open -e .env
+   ```
+   ```
+   HB_EMAIL=<proje sahibinin verdiği e-posta>
+   HB_PASSWORD=<proje sahibinin verdiği şifre>
+   ```
+4. Kontrol edin; çıktı `Sonuç: .env hazır.` olmalı:
+   ```bash
+   .venv/bin/python -m utils.env_kontrol
+   ```
+5. Emülatörde bir kez elle giriş yapın (yukarıdaki 4. adım). Doğrulama kodu istenirse kodu proje sahibinden alın, sonra **Çıkış yap**.
+6. Testleri çalıştırın; sonunda `2 passed` görünmeli:
+   ```bash
+   .venv/bin/pytest -m hesap --html=reports/hesap.html --self-contained-html
+   ```
+7. İş bitince `.env` dosyasındaki e-posta ve şifreyi silin. `reports/` içindeki raporlarda hesabın e-postası görünür; raporu paylaşacaksanız buna dikkat edin.
+
+`.env` dosyası `.gitignore` içindedir: Testi yapan kişi kendi bilgisayarından `git push` yapsa bile şifre GitHub'a gitmez.
 
 **Neden ayrı çalışıyor?** `.env` dolu olsa bile `pytest` ya da `pytest tests/regression` hesap testlerini **atlar** ("yalnızca 'pytest -m hesap' ile çalışır"). Hesaba giriş yalnızca bilerek istendiğinde yapılır. Bu sayede:
 - Normal çalıştırmalar hesaba hiç dokunmaz.
